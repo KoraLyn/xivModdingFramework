@@ -1041,7 +1041,18 @@ namespace xivModdingFramework.Models.FileTypes
 
                             meshNameDict.Add(id, atr);
 
-                            var meshNum = int.Parse(atr.Substring(atr.LastIndexOf("_", StringComparison.Ordinal) + 1, 1));
+                            var meshNum = 0;
+
+                            try
+                            {
+                                meshNum = int.Parse(atr.Substring(atr.LastIndexOf("_", StringComparison.Ordinal) + 1, 1));
+                            }
+                            catch
+                            {
+                                throw new Exception($"Could not read mesh number of mesh: {atr}\n\n" +
+                                                    $"Please make sure your mesh name ends with the mesh/part number.");
+                            }
+                        
 
                             // Determines whether the mesh has parts and gets the mesh number
                             if (atr.Contains("."))
