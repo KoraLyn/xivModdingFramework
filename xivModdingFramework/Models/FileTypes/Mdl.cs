@@ -1044,10 +1044,10 @@ namespace xivModdingFramework.Models.FileTypes
 
                                 br.BaseStream.Seek(colorOffset, SeekOrigin.Begin);
 
-                                var a = br.ReadByte();
                                 var r = br.ReadByte();
                                 var g = br.ReadByte();
                                 var b = br.ReadByte();
+                                var a = br.ReadByte();
 
                                 vertexData.Colors.Add(new Color(r, g, b, a));
                                 vertexData.Colors4.Add(new Color4((r / 255f), (g / 255f), (b / 255f), (a / 255f)));
@@ -3585,9 +3585,12 @@ namespace xivModdingFramework.Models.FileTypes
                         }
 
                         var disable = false;
-                        foreach(var value in importSettings.Values)
+                        if (importSettings != null)
                         {
-                            disable = disable || value.Disable;
+                            foreach (var value in importSettings.Values)
+                            {
+                                disable = disable || value.Disable;
+                            }
                         }
                         foreach (var shapeInfoShapeIndexPart in info.ShapeIndexParts)
                         {
@@ -4919,14 +4922,14 @@ namespace xivModdingFramework.Models.FileTypes
                             alpha = Convert.ToByte(Math.Round(colladaMeshData.VertexAlphas[i] * 255));
                         }
 
-                        if (!flipAlpha)
+                        if (flipAlpha)
                         {
                             importData.VertexData1.Add(alpha);
                         }
                         importData.VertexData1.Add(red);
                         importData.VertexData1.Add(green);
                         importData.VertexData1.Add(blue);
-                        if (flipAlpha)
+                        if (!flipAlpha)
                         {
                             importData.VertexData1.Add(alpha);
                         }
